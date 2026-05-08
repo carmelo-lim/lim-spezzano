@@ -11,41 +11,135 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
+        /* RESET E BLOCCO SCROLL */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: #001a33; font-family: 'Montserrat', sans-serif; color: white; overflow: hidden; }
-        
-        /* --- PANNELLO CONTROLLO --- */
-        #setup-panel { min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; background: linear-gradient(135deg, #001a33 0%, #003366 100%); overflow-y: auto; }
-        .setup-card { background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); width: 100%; max-width: 600px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        
-        .creator-tag { text-align: center; font-size: 11px; color: #ffd700; margin-bottom: 8px; text-transform: uppercase; font-weight: 700; letter-spacing: 1.5px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        html, body { 
+            height: 100vh; 
+            width: 100vw; 
+            overflow: hidden; /* Elimina definitivamente le barre di scorrimento */
+            background-color: #001a33; 
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+        }
+
+        /* PANNELLO CONTROLLO (TELECOMANDO) */
+        #setup-panel { 
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 20px; 
+            background: linear-gradient(135deg, #001a33 0%, #003366 100%); 
+            overflow-y: auto; /* Qui lo scroll serve solo per i settaggi */
+        }
+        .setup-card { background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); width: 100%; max-width: 600px; }
+        .creator-tag { text-align: center; font-size: 11px; color: #ffd700; margin-bottom: 8px; text-transform: uppercase; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; }
         h2 { text-align: center; color: #ffd700; margin-bottom: 20px; font-size: 1.3rem; text-transform: uppercase; border-bottom: 1px solid rgba(255,215,0,0.3); padding-bottom: 10px; }
-        
-        .input-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-size: 12px; font-weight: 600; color: #ffd700; }
-        input, textarea { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #f8f9fa; color: #333; font-family: 'Open Sans', sans-serif; font-size: 14px; outline: none; }
-        
-        .btn { width: 100%; padding: 16px; border-radius: 10px; border: none; font-weight: 800; cursor: pointer; text-transform: uppercase; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s; }
+        .input-group { margin-bottom: 10px; }
+        label { display: block; margin-bottom: 4px; font-size: 11px; font-weight: 600; color: #ffd700; }
+        input, textarea { width: 100%; padding: 10px; border-radius: 8px; border: none; background: #f8f9fa; color: #333; outline: none; }
+        .btn { width: 100%; padding: 14px; border-radius: 10px; border: none; font-weight: 800; cursor: pointer; text-transform: uppercase; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; }
         #update-btn { background: #00C851; color: white; }
         #start-btn { background: #ffd700; color: #001a33; }
+        .url-box { margin-top: 20px; padding: 12px; background: rgba(0,0,0,0.4); border-radius: 12px; border: 1px dashed #ffd700; font-size: 10px; }
+        .url-display { background: white; color: #222; padding: 8px; border-radius: 5px; margin-top: 5px; cursor: pointer; text-align: center; font-weight: bold; overflow-wrap: break-word; }
 
-        .url-box { margin-top: 25px; padding: 15px; background: rgba(0,0,0,0.4); border-radius: 12px; border: 1px dashed #ffd700; }
-        .url-display { background: white; color: #222; padding: 8px; border-radius: 5px; font-family: monospace; font-size: 10px; word-break: break-all; margin-top: 5px; cursor: pointer; text-align: center; font-weight: bold; }
+        /* --- SCHERMATA LIM HALL (ADATTIVA E SENZA SCROLL) --- */
+        #presentation-slide { 
+            display: none; 
+            width: 100vw; 
+            height: 100vh; 
+            flex-direction: column; 
+            justify-content: space-between; /* Distribuisce sopra, centro e sotto */
+            align-items: center;
+            padding: 4vh 5vw; 
+            background: radial-gradient(circle, #003366, #001a33); 
+            text-align: center; 
+            position: fixed; top: 0; left: 0;
+        }
 
-        /* --- SCHERMATA LIM HALL --- */
-        #presentation-slide { width: 100vw; height: 100vh; display: none; flex-direction: column; justify-content: space-between; padding: 4vh 5vw; background: radial-gradient(circle, #003366, #001a33); text-align: center; position: fixed; top: 0; left: 0; z-index: 9999; }
-        #display-school { font-size: clamp(18px, 3.2vh, 38px); font-weight: 900; text-transform: uppercase; line-height: 1.2; }
+        /* Intestazione Scuola - Più grande e leggibile */
+        #display-school { 
+            font-size: clamp(22px, 4.5vh, 55px); 
+            font-weight: 900; 
+            text-transform: uppercase; 
+            line-height: 1.1;
+            width: 100%;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
         
-        #digital-clock { font-size: clamp(40px, 12vh, 160px); color: #ffd700; font-weight: 900; text-shadow: 0 0 30px rgba(255,215,0,0.3); line-height: 1; margin-top: 10px; }
-        #current-date { font-size: clamp(14px, 2.5vh, 32px); color: white; opacity: 0.9; text-transform: capitalize; margin-bottom: 10px; }
+        .time-box { margin: 1vh 0; }
+        #digital-clock { 
+            font-size: clamp(60px, 16vh, 220px); 
+            color: #ffd700; 
+            font-weight: 900; 
+            text-shadow: 0 0 50px rgba(255,215,0,0.5); 
+            line-height: 0.9; 
+        }
+        #current-date { 
+            font-size: clamp(18px, 3.2vh, 40px); 
+            color: white; 
+            opacity: 0.9; 
+            text-transform: capitalize;
+            margin-top: 5px;
+        }
 
-        .main-msg { font-size: clamp(28px, 9vh, 110px); font-weight: 900; line-height: 1.1; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; border-left: 10px solid #ffd700; padding-left: 20px; margin: 20px 0; }
-        .gold { color: #ffd700; display: block; margin-top: 10px; }
+        /* Area Messaggio Centrale */
+        .main-msg { 
+            flex-grow: 1; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            width: 100%;
+            margin: 2vh 0;
+            padding: 0 20px;
+            border-left: 15px solid #ffd700;
+            border-right: 15px solid #ffd700;
+            background: rgba(255,215,0,0.03);
+        }
+        #display-title {
+            font-size: clamp(35px, 10vh, 140px); 
+            font-weight: 900; 
+            line-height: 1;
+            display: block;
+        }
+        #display-highlight { 
+            font-size: clamp(25px, 6vh, 85px);
+            color: #ffd700; 
+            display: block; 
+            margin-top: 20px; 
+            font-weight: 700;
+            text-transform: uppercase;
+        }
         
-        #display-footer { font-size: clamp(18px, 3vh, 32px); font-weight: 600; background: rgba(255,215,0,0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px; }
-        .signature { font-size: clamp(12px, 1.6vh, 18px); color: #ffd700; font-weight: 600; opacity: 0.8; display: flex; align-items: center; justify-content: center; gap: 8px; border-top: 1px solid rgba(255,215,0,0.2); padding-top: 10px; }
+        /* Nota Finale - Ingrandita come richiesto */
+        .footer-zone { width: 100%; }
+        #display-footer { 
+            font-size: clamp(24px, 5vh, 60px); 
+            font-weight: 800; 
+            background: rgba(255,215,0,0.15); 
+            padding: 25px; 
+            border-radius: 20px; 
+            margin-bottom: 2vh;
+            border: 2px solid rgba(255,215,0,0.3);
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .signature { 
+            font-size: clamp(14px, 2vh, 24px); 
+            color: #ffd700; 
+            font-weight: 600; 
+            opacity: 0.8; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 12px; 
+            border-top: 1px solid rgba(255,215,0,0.2); 
+            padding-top: 15px; 
+        }
         
-        #toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: #00C851; padding: 15px 30px; border-radius: 50px; transition: 0.5s; z-index: 10000; color: white; font-weight: bold; }
+        #toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: #00C851; padding: 15px 30px; border-radius: 50px; transition: 0.5s; z-index: 10000; color: white; font-bold; }
     </style>
 </head>
 <body>
@@ -60,38 +154,34 @@
             </div>
             <h2><i class="fa-solid fa-school"></i> GESTIONE LIM HALL</h2>
             
-            <div class="input-group" style="display:none;">
-                <input type="text" id="lim-id" value="HALL_INGRESSO">
-            </div>
-
             <div class="input-group">
                 <label>Intestazione Scuola</label>
                 <textarea id="school-input" rows="3">Istituto Istruzione Superiore S. MARCO A.&#13;&#10;“ITCG – LC LS IPA SPEZZANO A.”&#13;&#10;San Marco Argentano (CS)</textarea>
             </div>
 
             <div class="input-group">
-                <label>Messaggio Principale (Bianco)</label>
+                <label>Messaggio Principale</label>
                 <input type="text" id="title-input" value="BENVENUTI NELL'ISTITUTO">
             </div>
 
             <div class="input-group">
-                <label>Sottotitolo Importante (Oro)</label>
+                <label>Sottotitolo (Oro)</label>
                 <input type="text" id="highlight-input" value="SI RICEVE SOLO PER APPUNTAMENTO">
             </div>
 
             <div class="input-group">
-                <label>Nota Finale</label>
+                <label>Nota Finale (Più Grande)</label>
                 <input type="text" id="footer-input" value="Buon lavoro a tutti i colleghi.">
             </div>
 
-            <button class="btn" id="update-btn"><i class="fa-solid fa-paper-plane"></i> Invia alla LIM Hall</button>
-            <button class="btn" id="start-btn"><i class="fa-solid fa-desktop"></i> Attiva Schermo LIM</button>
+            <button class="btn" id="update-btn"><i class="fa-solid fa-paper-plane"></i> Aggiorna LIM Hall</button>
+            <button class="btn" id="start-btn"><i class="fa-solid fa-desktop"></i> Schermo Intero LIM</button>
 
             <div class="url-box">
-                <label style="font-size: 10px; font-weight: bold;">LINK PER IL RESPONSABILE (Pannello Controllo):</label>
+                <b>LINK PER IL RESPONSABILE:</b>
                 <div class="url-display" id="admin-url">...</div>
-                
-                <label style="font-size: 10px; font-weight: bold; margin-top: 10px; display: block;">LINK DA INSERIRE NELLA LIM:</label>
+                <br>
+                <b>LINK PER LA LIM (HALL):</b>
                 <div class="url-display" id="lim-url">...</div>
             </div>
         </div>
@@ -99,15 +189,15 @@
 
     <div id="presentation-slide">
         <div id="display-school"></div>
-        <div>
+        <div class="time-box">
             <div id="digital-clock">00:00:00</div>
             <div id="current-date"></div>
         </div>
         <div class="main-msg">
             <span id="display-title"></span>
-            <span class="gold" id="display-highlight"></span>
+            <span id="display-highlight"></span>
         </div>
-        <div>
+        <div class="footer-zone">
             <div id="display-footer"></div>
             <div class="signature"><i class="fa-solid fa-user-gear"></i> Ideato dall'Assistente Tecnico Carmelo Vomero</div>
         </div>
@@ -128,15 +218,15 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const limId = "HALL_INGRESSO";
+        const hallId = "HALL_INGRESSO";
 
         const adminUrlDiv = document.getElementById('admin-url');
         const limUrlDiv = document.getElementById('lim-url');
 
         function refreshLinks() {
             const base = window.location.origin + window.location.pathname;
-            adminUrlDiv.innerText = `${base}?admin=${limId}`;
-            limUrlDiv.innerText = `${base}?aula=${limId}`;
+            adminUrlDiv.innerText = `${base}?admin=${hallId}`;
+            limUrlDiv.innerText = `${base}?aula=${hallId}`;
         }
         refreshLinks();
 
@@ -151,27 +241,28 @@
 
         document.getElementById('update-btn').onclick = async () => {
             try {
-                await setDoc(doc(db, 'messaggi', limId), {
+                await setDoc(doc(db, 'messaggi', hallId), {
                     school: document.getElementById('school-input').value,
                     title: document.getElementById('title-input').value,
                     highlight: document.getElementById('highlight-input').value,
                     footer: document.getElementById('footer-input').value,
                     lastUpdate: Date.now()
                 });
-                alert("Messaggio inviato alla Hall!");
-            } catch (e) { alert("Errore invio dati."); }
+                alert("Aggiornato!");
+            } catch (e) { alert("Errore connessione."); }
         };
 
         function startLIMMode() {
             document.getElementById('setup-panel').style.display = 'none';
             document.getElementById('presentation-slide').style.display = 'flex';
+            
             setInterval(() => {
                 const now = new Date();
                 document.getElementById('digital-clock').innerText = now.toLocaleTimeString('it-IT');
                 document.getElementById('current-date').innerText = now.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
             }, 1000);
 
-            onSnapshot(doc(db, 'messaggi', limId), (snap) => {
+            onSnapshot(doc(db, 'messaggi', hallId), (snap) => {
                 if(snap.exists()){
                     const d = snap.data();
                     document.getElementById('display-school').innerHTML = d.school.replace(/\n/g, '<br>');
@@ -188,7 +279,7 @@
         if(params.get('aula')) {
             startLIMMode();
         } else if(params.get('admin')) {
-            onSnapshot(doc(db, 'messaggi', limId), (snap) => {
+            onSnapshot(doc(db, 'messaggi', hallId), (snap) => {
                 if(snap.exists()){
                     const d = snap.data();
                     document.getElementById('school-input').value = d.school;
