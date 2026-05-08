@@ -14,12 +14,13 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #001a33; font-family: 'Montserrat', sans-serif; color: white; overflow: hidden; }
         
-        /* --- PANNELLO TELECOMANDO --- */
+        /* PANNELLO CONFIGURAZIONE */
         #setup-panel { min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; background: linear-gradient(135deg, #001a33 0%, #003366 100%); overflow-y: auto; }
         .setup-card { background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); width: 100%; max-width: 600px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; }
         
-        .creator-tag { text-align: center; font-size: 10px; color: #ffd700; margin-bottom: 5px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
-        h2 { text-align: center; color: #ffd700; margin-bottom: 20px; font-size: 1.4rem; text-transform: uppercase; }
+        /* Correzione Intestazione Ideatore */
+        .creator-tag { text-align: center; font-size: 11px; color: #ffd700; margin-bottom: 8px; text-transform: uppercase; font-weight: 700; letter-spacing: 1.5px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        h2 { text-align: center; color: #ffd700; margin-bottom: 20px; font-size: 1.4rem; text-transform: uppercase; border-bottom: 1px solid rgba(255,215,0,0.3); padding-bottom: 10px; }
         
         .input-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-size: 12px; font-weight: 600; opacity: 0.8; color: #ffd700; }
@@ -29,16 +30,14 @@
         #update-btn { background: #00C851; color: white; }
         #start-btn { background: #ffd700; color: #001a33; }
         .btn:active { transform: scale(0.97); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .url-box { margin-top: 25px; padding: 15px; background: rgba(0,0,0,0.4); border-radius: 12px; border: 1px dashed #ffd700; }
         .url-display { background: white; color: #222; padding: 12px; border-radius: 5px; font-family: monospace; font-size: 11px; word-break: break-all; margin-top: 10px; cursor: pointer; text-align: center; font-weight: bold; min-height: 40px; display: flex; align-items: center; justify-content: center; }
 
-        /* --- SCHERMATA LIM --- */
+        /* SCHERMATA LIM */
         #presentation-slide { width: 100vw; height: 100vh; display: none; flex-direction: column; justify-content: space-between; padding: 4vh 5vw; background: radial-gradient(circle, #003366, #001a33); text-align: center; position: fixed; top: 0; left: 0; z-index: 9999; }
         #display-school { font-size: clamp(18px, 3.2vh, 38px); font-weight: 900; text-transform: uppercase; line-height: 1.2; }
         
-        /* Orologio e Data compatti */
         .time-container { margin: 10px 0; }
         #digital-clock { font-size: clamp(35px, 10vh, 140px); color: #ffd700; font-weight: 900; text-shadow: 0 0 30px rgba(255,215,0,0.3); line-height: 1; }
         #current-date { font-size: clamp(12px, 2vh, 28px); color: white; opacity: 0.9; text-transform: capitalize; margin-top: 5px; }
@@ -46,34 +45,27 @@
         .main-msg { font-size: clamp(26px, 8vh, 100px); font-weight: 900; line-height: 1.1; margin: 20px 0; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
         .gold { color: #ffd700; display: block; margin-top: 15px; }
         
-        /* Piè di pagina con Firma e Icona */
         .footer-container { margin-top: 20px; }
         #display-footer { font-size: clamp(16px, 2.5vh, 28px); opacity: 0.8; font-weight: 600; border-top: 2px solid rgba(255,215,0,0.2); padding-top: 15px; margin-bottom: 25px; }
         .signature { font-size: clamp(10px, 1.4vh, 16px); color: #ffd700; font-weight: 600; letter-spacing: 1px; opacity: 0.8; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .signature i { font-size: 1.2em; }
         
-        #toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: #00C851; padding: 15px 30px; border-radius: 50px; transition: 0.5s; z-index: 10000; color: white; font-weight: bold; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        
-        .status-indicator { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-        .dot { width: 10px; height: 10px; background: #ff4444; border-radius: 50%; }
-        .dot.online { background: #00C851; box-shadow: 0 0 8px #00C851; }
+        #toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: #00C851; padding: 15px 30px; border-radius: 50px; transition: 0.5s; z-index: 10000; color: white; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div id="toast">Copiato negli appunti!</div>
+    <div id="toast">Copiato!</div>
 
     <div id="setup-panel">
         <div class="setup-card">
-            <div class="status-indicator">
-                <div id="conn-dot" class="dot"></div>
-                <span id="conn-text">Connessione al database...</span>
+            <div class="creator-tag">
+                <i class="fa-solid fa-user-gear"></i> 
+                ASSISTENTE TECNICO CARMELO VOMERO
             </div>
-            <div class="creator-tag"><i class="fa-solid fa-code-branch"></i> Progetto Carmelo Vomero</div>
             <h2><i class="fa-solid fa-tower-broadcast"></i> Remote Control LIM</h2>
             
             <div class="input-group">
-                <label>ID Aula (es. MAGNA, LABORATORIO)</label>
+                <label>ID Aula (Senza spazi)</label>
                 <input type="text" id="lim-id" value="AULA_MAGNA_SPEZZANO">
             </div>
 
@@ -97,11 +89,11 @@
                 <input type="text" id="footer-input" value="Buon lavoro a tutti i colleghi.">
             </div>
 
-            <button class="btn" id="update-btn" disabled><i class="fa-solid fa-paper-plane"></i> Invia alla LIM</button>
-            <button class="btn" id="start-btn"><i class="fa-solid fa-desktop"></i> Attiva come LIM</button>
+            <button class="btn" id="update-btn"><i class="fa-solid fa-paper-plane"></i> Aggiorna LIM</button>
+            <button class="btn" id="start-btn"><i class="fa-solid fa-desktop"></i> Visualizza come LIM</button>
 
             <div class="url-box">
-                <label style="color: #ffd700; font-weight: bold;">LINK PER IL RESPONSABILE:</label>
+                <label>LINK PER LA LIM (O PER IL RESPONSABILE):</label>
                 <div class="url-display" id="url-display">Generazione link...</div>
             </div>
         </div>
@@ -109,23 +101,17 @@
 
     <div id="presentation-slide">
         <div id="display-school"></div>
-        
         <div class="time-container">
             <div id="digital-clock">00:00:00</div>
             <div id="current-date"></div>
         </div>
-
         <div class="main-msg">
             <span id="display-title"></span>
             <span class="gold" id="display-highlight"></span>
         </div>
-
         <div class="footer-container">
             <div id="display-footer"></div>
-            <div class="signature">
-                <i class="fa-solid fa-user-gear"></i> 
-                Ideato dall'Assistente Tecnico Carmelo Vomero
-            </div>
+            <div class="signature"><i class="fa-solid fa-user-gear"></i> Ideato dall'Assistente Tecnico Carmelo Vomero</div>
         </div>
     </div>
 
@@ -147,21 +133,11 @@
 
         const limInput = document.getElementById('lim-id');
         const urlDiv = document.getElementById('url-display');
-        const updateBtn = document.getElementById('update-btn');
-        const startBtn = document.getElementById('start-btn');
-        const connDot = document.getElementById('conn-dot');
-        const connText = document.getElementById('conn-text');
-
-        onSnapshot(doc(db, "controllo", "connessione"), () => {
-            connDot.classList.add('online');
-            connText.innerText = "Sistema Online";
-            updateBtn.disabled = false;
-        });
 
         function refreshLink() {
             const id = limInput.value.trim().toUpperCase() || "AULA";
-            const base = window.location.href.split('?')[0];
-            urlDiv.innerText = `${base}?aula=${encodeURIComponent(id)}`;
+            const base = window.location.origin + window.location.pathname;
+            urlDiv.innerText = `${base}?aula=${id}`;
         }
         limInput.addEventListener('input', refreshLink);
         refreshLink();
@@ -170,12 +146,11 @@
             navigator.clipboard.writeText(urlDiv.innerText);
             const t = document.getElementById('toast');
             t.style.top = '20px';
-            setTimeout(() => t.style.top = '-100px', 2500);
+            setTimeout(() => t.style.top = '-100px', 2000);
         };
 
-        updateBtn.onclick = async () => {
+        document.getElementById('update-btn').onclick = async () => {
             const id = limInput.value.trim().toUpperCase();
-            updateBtn.disabled = true;
             try {
                 await setDoc(doc(db, 'messaggi', id), {
                     school: document.getElementById('school-input').value,
@@ -184,26 +159,20 @@
                     footer: document.getElementById('footer-input').value,
                     lastUpdate: Date.now()
                 });
-                const t = document.getElementById('toast');
-                t.innerText = "✅ DATI INVIATI!";
-                t.style.top = '20px';
-                setTimeout(() => t.style.top = '-100px', 3000);
-            } catch (e) { alert("Errore!"); }
-            finally { updateBtn.disabled = false; }
+                alert("LIM Aggiornata con successo!");
+            } catch (e) { alert("Errore connessione."); }
         };
-
-        function updateDateTime() {
-            const now = new Date();
-            document.getElementById('digital-clock').innerText = now.toLocaleTimeString('it-IT');
-            const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-            document.getElementById('current-date').innerText = now.toLocaleDateString('it-IT', options);
-        }
 
         function startLIMMode(id) {
             document.getElementById('setup-panel').style.display = 'none';
             document.getElementById('presentation-slide').style.display = 'flex';
-            updateDateTime();
-            setInterval(updateDateTime, 1000);
+            
+            setInterval(() => {
+                const now = new Date();
+                document.getElementById('digital-clock').innerText = now.toLocaleTimeString('it-IT');
+                document.getElementById('current-date').innerText = now.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+            }, 1000);
+
             onSnapshot(doc(db, 'messaggi', id), (snap) => {
                 if(snap.exists()){
                     const d = snap.data();
@@ -215,10 +184,14 @@
             });
         }
 
-        startBtn.onclick = () => startLIMMode(limInput.value.trim().toUpperCase());
+        document.getElementById('start-btn').onclick = () => startLIMMode(limInput.value.trim().toUpperCase());
+
+        // LOGICA DI CONTROLLO: Se nell'URL c'è ?aula= allora mostra la LIM, altrimenti mostra il PANNELLO
         const params = new URLSearchParams(window.location.search);
         const aulaParam = params.get('aula');
-        if(aulaParam) startLIMMode(aulaParam.toUpperCase());
+        if(aulaParam) {
+            startLIMMode(aulaParam.toUpperCase());
+        }
     </script>
 </body>
 </html>
