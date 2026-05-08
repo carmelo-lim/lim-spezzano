@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remote Control LIM - Carmelo Vomero</title>
+    <title>LIM Hall Ingresso - Carmelo Vomero</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,47 +14,43 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #001a33; font-family: 'Montserrat', sans-serif; color: white; overflow: hidden; }
         
-        /* PANNELLO CONFIGURAZIONE */
+        /* --- PANNELLO CONTROLLO --- */
         #setup-panel { min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; background: linear-gradient(135deg, #001a33 0%, #003366 100%); overflow-y: auto; }
-        .setup-card { background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); width: 100%; max-width: 600px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; }
+        .setup-card { background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); width: 100%; max-width: 600px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
         
-        /* Correzione Intestazione Ideatore */
         .creator-tag { text-align: center; font-size: 11px; color: #ffd700; margin-bottom: 8px; text-transform: uppercase; font-weight: 700; letter-spacing: 1.5px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        h2 { text-align: center; color: #ffd700; margin-bottom: 20px; font-size: 1.4rem; text-transform: uppercase; border-bottom: 1px solid rgba(255,215,0,0.3); padding-bottom: 10px; }
+        h2 { text-align: center; color: #ffd700; margin-bottom: 20px; font-size: 1.3rem; text-transform: uppercase; border-bottom: 1px solid rgba(255,215,0,0.3); padding-bottom: 10px; }
         
         .input-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-size: 12px; font-weight: 600; opacity: 0.8; color: #ffd700; }
+        label { display: block; margin-bottom: 5px; font-size: 12px; font-weight: 600; color: #ffd700; }
         input, textarea { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #f8f9fa; color: #333; font-family: 'Open Sans', sans-serif; font-size: 14px; outline: none; }
         
         .btn { width: 100%; padding: 16px; border-radius: 10px; border: none; font-weight: 800; cursor: pointer; text-transform: uppercase; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s; }
         #update-btn { background: #00C851; color: white; }
         #start-btn { background: #ffd700; color: #001a33; }
-        .btn:active { transform: scale(0.97); }
 
         .url-box { margin-top: 25px; padding: 15px; background: rgba(0,0,0,0.4); border-radius: 12px; border: 1px dashed #ffd700; }
-        .url-display { background: white; color: #222; padding: 12px; border-radius: 5px; font-family: monospace; font-size: 11px; word-break: break-all; margin-top: 10px; cursor: pointer; text-align: center; font-weight: bold; min-height: 40px; display: flex; align-items: center; justify-content: center; }
+        .url-display { background: white; color: #222; padding: 8px; border-radius: 5px; font-family: monospace; font-size: 10px; word-break: break-all; margin-top: 5px; cursor: pointer; text-align: center; font-weight: bold; }
 
-        /* SCHERMATA LIM */
+        /* --- SCHERMATA LIM HALL --- */
         #presentation-slide { width: 100vw; height: 100vh; display: none; flex-direction: column; justify-content: space-between; padding: 4vh 5vw; background: radial-gradient(circle, #003366, #001a33); text-align: center; position: fixed; top: 0; left: 0; z-index: 9999; }
         #display-school { font-size: clamp(18px, 3.2vh, 38px); font-weight: 900; text-transform: uppercase; line-height: 1.2; }
         
-        .time-container { margin: 10px 0; }
-        #digital-clock { font-size: clamp(35px, 10vh, 140px); color: #ffd700; font-weight: 900; text-shadow: 0 0 30px rgba(255,215,0,0.3); line-height: 1; }
-        #current-date { font-size: clamp(12px, 2vh, 28px); color: white; opacity: 0.9; text-transform: capitalize; margin-top: 5px; }
+        #digital-clock { font-size: clamp(40px, 12vh, 160px); color: #ffd700; font-weight: 900; text-shadow: 0 0 30px rgba(255,215,0,0.3); line-height: 1; margin-top: 10px; }
+        #current-date { font-size: clamp(14px, 2.5vh, 32px); color: white; opacity: 0.9; text-transform: capitalize; margin-bottom: 10px; }
 
-        .main-msg { font-size: clamp(26px, 8vh, 100px); font-weight: 900; line-height: 1.1; margin: 20px 0; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
-        .gold { color: #ffd700; display: block; margin-top: 15px; }
+        .main-msg { font-size: clamp(28px, 9vh, 110px); font-weight: 900; line-height: 1.1; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; border-left: 10px solid #ffd700; padding-left: 20px; margin: 20px 0; }
+        .gold { color: #ffd700; display: block; margin-top: 10px; }
         
-        .footer-container { margin-top: 20px; }
-        #display-footer { font-size: clamp(16px, 2.5vh, 28px); opacity: 0.8; font-weight: 600; border-top: 2px solid rgba(255,215,0,0.2); padding-top: 15px; margin-bottom: 25px; }
-        .signature { font-size: clamp(10px, 1.4vh, 16px); color: #ffd700; font-weight: 600; letter-spacing: 1px; opacity: 0.8; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        #display-footer { font-size: clamp(18px, 3vh, 32px); font-weight: 600; background: rgba(255,215,0,0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        .signature { font-size: clamp(12px, 1.6vh, 18px); color: #ffd700; font-weight: 600; opacity: 0.8; display: flex; align-items: center; justify-content: center; gap: 8px; border-top: 1px solid rgba(255,215,0,0.2); padding-top: 10px; }
         
         #toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: #00C851; padding: 15px 30px; border-radius: 50px; transition: 0.5s; z-index: 10000; color: white; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div id="toast">Copiato!</div>
+    <div id="toast">Copiato negli appunti!</div>
 
     <div id="setup-panel">
         <div class="setup-card">
@@ -62,11 +58,10 @@
                 <i class="fa-solid fa-user-gear"></i> 
                 ASSISTENTE TECNICO CARMELO VOMERO
             </div>
-            <h2><i class="fa-solid fa-tower-broadcast"></i> Remote Control LIM</h2>
+            <h2><i class="fa-solid fa-school"></i> GESTIONE LIM HALL</h2>
             
-            <div class="input-group">
-                <label>ID Aula (Senza spazi)</label>
-                <input type="text" id="lim-id" value="AULA_MAGNA_SPEZZANO">
+            <div class="input-group" style="display:none;">
+                <input type="text" id="lim-id" value="HALL_INGRESSO">
             </div>
 
             <div class="input-group">
@@ -75,33 +70,36 @@
             </div>
 
             <div class="input-group">
-                <label>Messaggio Principale</label>
-                <input type="text" id="title-input" value="OGGI NIENTE SOSTITUZIONI.">
+                <label>Messaggio Principale (Bianco)</label>
+                <input type="text" id="title-input" value="BENVENUTI NELL'ISTITUTO">
             </div>
 
             <div class="input-group">
-                <label>Sottotitolo (Oro)</label>
-                <input type="text" id="highlight-input" value="TUTTI I DOCENTI SONO PRESENTI.">
+                <label>Sottotitolo Importante (Oro)</label>
+                <input type="text" id="highlight-input" value="SI RICEVE SOLO PER APPUNTAMENTO">
             </div>
 
             <div class="input-group">
-                <label>Nota a pié di pagina</label>
+                <label>Nota Finale</label>
                 <input type="text" id="footer-input" value="Buon lavoro a tutti i colleghi.">
             </div>
 
-            <button class="btn" id="update-btn"><i class="fa-solid fa-paper-plane"></i> Aggiorna LIM</button>
-            <button class="btn" id="start-btn"><i class="fa-solid fa-desktop"></i> Visualizza come LIM</button>
+            <button class="btn" id="update-btn"><i class="fa-solid fa-paper-plane"></i> Invia alla LIM Hall</button>
+            <button class="btn" id="start-btn"><i class="fa-solid fa-desktop"></i> Attiva Schermo LIM</button>
 
             <div class="url-box">
-                <label>LINK PER LA LIM (O PER IL RESPONSABILE):</label>
-                <div class="url-display" id="url-display">Generazione link...</div>
+                <label style="font-size: 10px; font-weight: bold;">LINK PER IL RESPONSABILE (Pannello Controllo):</label>
+                <div class="url-display" id="admin-url">...</div>
+                
+                <label style="font-size: 10px; font-weight: bold; margin-top: 10px; display: block;">LINK DA INSERIRE NELLA LIM:</label>
+                <div class="url-display" id="lim-url">...</div>
             </div>
         </div>
     </div>
 
     <div id="presentation-slide">
         <div id="display-school"></div>
-        <div class="time-container">
+        <div>
             <div id="digital-clock">00:00:00</div>
             <div id="current-date"></div>
         </div>
@@ -109,7 +107,7 @@
             <span id="display-title"></span>
             <span class="gold" id="display-highlight"></span>
         </div>
-        <div class="footer-container">
+        <div>
             <div id="display-footer"></div>
             <div class="signature"><i class="fa-solid fa-user-gear"></i> Ideato dall'Assistente Tecnico Carmelo Vomero</div>
         </div>
@@ -130,50 +128,50 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const limId = "HALL_INGRESSO";
 
-        const limInput = document.getElementById('lim-id');
-        const urlDiv = document.getElementById('url-display');
+        const adminUrlDiv = document.getElementById('admin-url');
+        const limUrlDiv = document.getElementById('lim-url');
 
-        function refreshLink() {
-            const id = limInput.value.trim().toUpperCase() || "AULA";
+        function refreshLinks() {
             const base = window.location.origin + window.location.pathname;
-            urlDiv.innerText = `${base}?aula=${id}`;
+            adminUrlDiv.innerText = `${base}?admin=${limId}`;
+            limUrlDiv.innerText = `${base}?aula=${limId}`;
         }
-        limInput.addEventListener('input', refreshLink);
-        refreshLink();
+        refreshLinks();
 
-        urlDiv.onclick = () => {
-            navigator.clipboard.writeText(urlDiv.innerText);
-            const t = document.getElementById('toast');
-            t.style.top = '20px';
-            setTimeout(() => t.style.top = '-100px', 2000);
-        };
+        [adminUrlDiv, limUrlDiv].forEach(el => {
+            el.onclick = () => {
+                navigator.clipboard.writeText(el.innerText);
+                const t = document.getElementById('toast');
+                t.style.top = '20px';
+                setTimeout(() => t.style.top = '-100px', 2000);
+            };
+        });
 
         document.getElementById('update-btn').onclick = async () => {
-            const id = limInput.value.trim().toUpperCase();
             try {
-                await setDoc(doc(db, 'messaggi', id), {
+                await setDoc(doc(db, 'messaggi', limId), {
                     school: document.getElementById('school-input').value,
                     title: document.getElementById('title-input').value,
                     highlight: document.getElementById('highlight-input').value,
                     footer: document.getElementById('footer-input').value,
                     lastUpdate: Date.now()
                 });
-                alert("LIM Aggiornata con successo!");
-            } catch (e) { alert("Errore connessione."); }
+                alert("Messaggio inviato alla Hall!");
+            } catch (e) { alert("Errore invio dati."); }
         };
 
-        function startLIMMode(id) {
+        function startLIMMode() {
             document.getElementById('setup-panel').style.display = 'none';
             document.getElementById('presentation-slide').style.display = 'flex';
-            
             setInterval(() => {
                 const now = new Date();
                 document.getElementById('digital-clock').innerText = now.toLocaleTimeString('it-IT');
                 document.getElementById('current-date').innerText = now.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
             }, 1000);
 
-            onSnapshot(doc(db, 'messaggi', id), (snap) => {
+            onSnapshot(doc(db, 'messaggi', limId), (snap) => {
                 if(snap.exists()){
                     const d = snap.data();
                     document.getElementById('display-school').innerHTML = d.school.replace(/\n/g, '<br>');
@@ -184,13 +182,21 @@
             });
         }
 
-        document.getElementById('start-btn').onclick = () => startLIMMode(limInput.value.trim().toUpperCase());
+        document.getElementById('start-btn').onclick = startLIMMode;
 
-        // LOGICA DI CONTROLLO: Se nell'URL c'è ?aula= allora mostra la LIM, altrimenti mostra il PANNELLO
         const params = new URLSearchParams(window.location.search);
-        const aulaParam = params.get('aula');
-        if(aulaParam) {
-            startLIMMode(aulaParam.toUpperCase());
+        if(params.get('aula')) {
+            startLIMMode();
+        } else if(params.get('admin')) {
+            onSnapshot(doc(db, 'messaggi', limId), (snap) => {
+                if(snap.exists()){
+                    const d = snap.data();
+                    document.getElementById('school-input').value = d.school;
+                    document.getElementById('title-input').value = d.title;
+                    document.getElementById('highlight-input').value = d.highlight;
+                    document.getElementById('footer-input').value = d.footer;
+                }
+            });
         }
     </script>
 </body>
