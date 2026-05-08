@@ -14,7 +14,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #001a33; font-family: 'Montserrat', sans-serif; color: white; overflow: hidden; }
         
-        /* PANNELLO CONFIGURAZIONE (TELECOMANDO) */
+        /* --- PANNELLO TELECOMANDO --- */
         #setup-panel { min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; background: linear-gradient(135deg, #001a33 0%, #003366 100%); overflow-y: auto; }
         .setup-card { background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); width: 100%; max-width: 600px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; }
         
@@ -34,22 +34,23 @@
         .url-box { margin-top: 25px; padding: 15px; background: rgba(0,0,0,0.4); border-radius: 12px; border: 1px dashed #ffd700; }
         .url-display { background: white; color: #222; padding: 12px; border-radius: 5px; font-family: monospace; font-size: 11px; word-break: break-all; margin-top: 10px; cursor: pointer; text-align: center; font-weight: bold; min-height: 40px; display: flex; align-items: center; justify-content: center; }
 
-        /* SCHERMATA LIM (VISUALIZZAZIONE) */
+        /* --- SCHERMATA LIM --- */
         #presentation-slide { width: 100vw; height: 100vh; display: none; flex-direction: column; justify-content: space-between; padding: 4vh 5vw; background: radial-gradient(circle, #003366, #001a33); text-align: center; position: fixed; top: 0; left: 0; z-index: 9999; }
         #display-school { font-size: clamp(18px, 3.2vh, 38px); font-weight: 900; text-transform: uppercase; line-height: 1.2; }
         
-        /* Orologio e Data più compatti */
-        .time-container { margin: 5px 0; }
-        #digital-clock { font-size: clamp(35px, 10vh, 150px); color: #ffd700; font-weight: 900; text-shadow: 0 0 30px rgba(255,215,0,0.3); line-height: 1; }
-        #current-date { font-size: clamp(12px, 2vh, 28px); color: white; opacity: 0.9; text-transform: capitalize; margin-top: 2px; }
+        /* Orologio e Data compatti */
+        .time-container { margin: 10px 0; }
+        #digital-clock { font-size: clamp(35px, 10vh, 140px); color: #ffd700; font-weight: 900; text-shadow: 0 0 30px rgba(255,215,0,0.3); line-height: 1; }
+        #current-date { font-size: clamp(12px, 2vh, 28px); color: white; opacity: 0.9; text-transform: capitalize; margin-top: 5px; }
 
-        .main-msg { font-size: clamp(26px, 8vh, 100px); font-weight: 900; line-height: 1.1; margin: 15px 0; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+        .main-msg { font-size: clamp(26px, 8vh, 100px); font-weight: 900; line-height: 1.1; margin: 20px 0; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
         .gold { color: #ffd700; display: block; margin-top: 15px; }
         
-        /* Area Piè di Pagina Separata */
+        /* Piè di pagina con Firma e Icona */
         .footer-container { margin-top: 20px; }
-        #display-footer { font-size: clamp(16px, 2.5vh, 28px); opacity: 0.8; font-weight: 600; border-top: 2px solid rgba(255,215,0,0.2); padding-top: 15px; margin-bottom: 30px; }
-        .signature { font-size: clamp(10px, 1.4vh, 16px); color: #ffd700; font-weight: 600; letter-spacing: 1px; opacity: 0.6; }
+        #display-footer { font-size: clamp(16px, 2.5vh, 28px); opacity: 0.8; font-weight: 600; border-top: 2px solid rgba(255,215,0,0.2); padding-top: 15px; margin-bottom: 25px; }
+        .signature { font-size: clamp(10px, 1.4vh, 16px); color: #ffd700; font-weight: 600; letter-spacing: 1px; opacity: 0.8; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .signature i { font-size: 1.2em; }
         
         #toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: #00C851; padding: 15px 30px; border-radius: 50px; transition: 0.5s; z-index: 10000; color: white; font-weight: bold; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         
@@ -68,7 +69,7 @@
                 <div id="conn-dot" class="dot"></div>
                 <span id="conn-text">Connessione al database...</span>
             </div>
-            <div class="creator-tag">Developed by Carmelo Vomero</div>
+            <div class="creator-tag"><i class="fa-solid fa-code-branch"></i> Progetto Carmelo Vomero</div>
             <h2><i class="fa-solid fa-tower-broadcast"></i> Remote Control LIM</h2>
             
             <div class="input-group">
@@ -121,7 +122,10 @@
 
         <div class="footer-container">
             <div id="display-footer"></div>
-            <div class="signature">Ideato dall'Assistente Tecnico Carmelo Vomero</div>
+            <div class="signature">
+                <i class="fa-solid fa-user-gear"></i> 
+                Ideato dall'Assistente Tecnico Carmelo Vomero
+            </div>
         </div>
     </div>
 
@@ -150,7 +154,7 @@
 
         onSnapshot(doc(db, "controllo", "connessione"), () => {
             connDot.classList.add('online');
-            connText.innerText = "Sistema Pronto";
+            connText.innerText = "Sistema Online";
             updateBtn.disabled = false;
         });
 
@@ -181,10 +185,10 @@
                     lastUpdate: Date.now()
                 });
                 const t = document.getElementById('toast');
-                t.innerText = "✅ INVIATO ALLA LIM!";
+                t.innerText = "✅ DATI INVIATI!";
                 t.style.top = '20px';
                 setTimeout(() => t.style.top = '-100px', 3000);
-            } catch (e) { alert("Errore invio."); }
+            } catch (e) { alert("Errore!"); }
             finally { updateBtn.disabled = false; }
         };
 
@@ -215,7 +219,6 @@
         const params = new URLSearchParams(window.location.search);
         const aulaParam = params.get('aula');
         if(aulaParam) startLIMMode(aulaParam.toUpperCase());
-
     </script>
 </body>
 </html>
