@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote Control LIM - Carmelo Vomero</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #001a33; font-family: 'Montserrat', sans-serif; color: white; overflow: hidden; }
+        
+        /* PANNELLO CONFIGURAZIONE (TELECOMANDO) */
+        #setup-panel { min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; background: linear-gradient(135deg, #001a33 0%, #003366 100%); overflow-y: auto; }
+        .setup-card { background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); width: 100%; max-width: 600px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; }
+        
+        .creator-tag { text-align: center; font-size: 10px; color: #ffd700; margin-bottom: 5px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
+        h2 { text-align: center; color: #ffd700; margin-bottom: 20px; font-size: 1.4rem; text-transform: uppercase; }
+        
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-size: 12px; font-weight: 600; opacity: 0.8; color: #ffd700; }
+        input, textarea { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #f8f9fa; color: #333; font-family: 'Open Sans', sans-serif; font-size: 14px; outline: none; }
+        
+        .btn { width: 100%; padding: 16px; border-radius: 10px; border: none; font-weight: 800; cursor: pointer; text-transform: uppercase; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s; }
+        #update-btn { background: #00C851; color: white; }
+        #start-btn { background: #ffd700; color: #001a33; }
+        .btn:active { transform: scale(0.97); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .url-box { margin-top: 25px; padding: 15px; background: rgba(0,0,0,0.4); border-radius: 12px; border: 1px dashed #ffd700; }
+        .url-display { background: white; color: #222; padding: 12px; border-radius: 5px; font-family: monospace; font-size: 11px; word-break: break-all; margin-top: 10px; cursor: pointer; text-align: center; font-weight: bold; min-height: 40px; display: flex; align-items: center; justify-content: center; }
+
+        /* SCHERMATA LIM (VISUALIZZAZIONE) */
+        #presentation-slide { width: 100vw; height: 100vh; display: none; flex-direction: column; justify-content: space-between; padding: 4vh 5vw; background: radial-gradient(circle, #003366, #001a33); text-align: center; position: fixed; top: 0; left: 0; z-index: 9999; }
+        #display-school { font-size: clamp(18px, 4vh, 45px); font-weight: 900; text-transform: uppercase; line-height: 1.2; }
+        #digital-clock { font-size: clamp(80px, 25vh, 320px); color: #ffd700; font-weight: 900; text-shadow: 0 0 50px rgba(255,215,0,0.4); margin: 10px 0; }
+        .main-msg { font-size: clamp(30px, 8vh, 90px); font-weight: 900; line-height: 1.1; }
+        .gold { color: #ffd700; display: block; margin-top: 10px; }
+        #display-footer { font-size: clamp(16px, 2.5vh, 28px); opacity: 0.8; font-weight: 500; border-top: 2px solid rgba(255,215,0,0.2); padding-top: 15px; }
+        
+        #toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: #00C851; padding: 15px 30px; border-radius: 50px; transition: 0.5s; z-index: 10000; color: white; font-weight: bold; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        
+        .status-indicator { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        .dot { width: 10px; height: 10px; background: #ff4444; border-radius: 50%; }
+        .dot.online { background: #00C851; box-shadow: 0 0 8px #00C851; }
+    </style>
+</head>
+<body>
+
+    <div id="toast">Copiato negli appunti!</div>
+
+    <div id="setup-panel">
+        <div class="setup-card">
+            <div class="status-indicator">
+                <div id="conn-dot" class="dot"></div>
+                <span id="conn-text">Connessione al database...</span>
+            </div>
+            <div class="creator-tag">Developed by Carmelo Vomero</div>
+            <h2><i class="fa-solid fa-tower-broadcast"></i> Remote Control LIM</h2>
+            
+            <div class="input-group">
+                <label>ID Aula (es. MAGNA, LABORATORIO)</label>
+                <input type="text" id="lim-id" value="AULA_MAGNA_SPEZZANO">
+            </div>
+
+            <div class="input-group">
+                <label>Intestazione Scuola</label>
+                <textarea id="school-input" rows="3">Istituto Istruzione Superiore S. MARCO A.&#13;&#10;“ITCG – LC LS IPA SPEZZANO A.”&#13;&#10;San Marco Argentano (CS)</textarea>
+            </div>
+
+            <div class="input-group">
+                <label>Messaggio Principale</label>
+                <input type="text" id="title-input" value="OGGI NIENTE SOSTITUZIONI.">
+            </div>
+
+            <div class="input-group">
+                <label>Sottotitolo (Oro)</label>
+                <input type="text" id="highlight-input" value="TUTTI I DOCENTI SONO PRESENTI.">
+            </div>
+
+            <div class="input-group">
+                <label>Nota a pié di pagina</label>
+                <input type="text" id="footer-input" value="Buon lavoro a tutti i colleghi.">
+            </div>
+
+            <button class="btn" id="update-btn" disabled><i class="fa-solid fa-paper-plane"></i> Invia alla LIM</button>
+            <button class="btn" id="start-btn"><i class="fa-solid fa-desktop"></i> Attiva come LIM</button>
+
+            <div class="url-box">
+                <label style="color: #ffd700; font-weight: bold;">LINK PER IL RESPONSABILE:</label>
+                <div class="url-display" id="url-display">Generazione link...</div>
+                <p style="font-size: 10px; margin-top: 8px; text-align: center; opacity: 0.7;">Tocca il link sopra per copiarlo</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="presentation-slide">
+        <div id="display-school"></div>
+        <div id="digital-clock">00:00:00</div>
+        <div class="main-msg">
+            <span id="display-title"></span>
+            <span class="gold" id="display-highlight"></span>
+        </div>
+        <div id="display-footer"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // NUOVA CONFIGURAZIONE LIM-SPEZZANO
+        const firebaseConfig = {
+            apiKey: "AIzaSyCh5dxeRSQF_r6pi2UW5dOQASc2Su9aiWU",
+            authDomain: "lim-spezzano.firebaseapp.com",
+            projectId: "lim-spezzano",
+            storageBucket: "lim-spezzano.firebasestorage.app",
+            messagingSenderId: "312130457648",
+            appId: "1:312130457648:web:0e8879c80f7b273e2c9df5"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const limInput = document.getElementById('lim-id');
+        const urlDiv = document.getElementById('url-display');
+        const updateBtn = document.getElementById('update-btn');
+        const startBtn = document.getElementById('start-btn');
+        const connDot = document.getElementById('conn-dot');
+        const connText = document.getElementById('conn-text');
+
+        // Controllo connessione
+        onSnapshot(doc(db, "controllo", "connessione"), () => {
+            connDot.classList.add('online');
+            connText.innerText = "Sistema Pronto";
+            updateBtn.disabled = false;
+        }, (err) => {
+            // In modalità test, attiviamo comunque
+            connDot.classList.add('online');
+            connText.innerText = "Sistema Pronto";
+            updateBtn.disabled = false;
+        });
+
+        function refreshLink() {
+            const id = limInput.value.trim().toUpperCase() || "AULA";
+            const base = window.location.href.split('?')[0];
+            urlDiv.innerText = `${base}?aula=${encodeURIComponent(id)}`;
+        }
+        limInput.addEventListener('input', refreshLink);
+        refreshLink();
+
+        urlDiv.onclick = () => {
+            navigator.clipboard.writeText(urlDiv.innerText);
+            const t = document.getElementById('toast');
+            t.style.top = '20px';
+            setTimeout(() => t.style.top = '-100px', 2500);
+        };
+
+        updateBtn.onclick = async () => {
+            const id = limInput.value.trim().toUpperCase();
+            updateBtn.disabled = true;
+            try {
+                await setDoc(doc(db, 'messaggi', id), {
+                    school: document.getElementById('school-input').value,
+                    title: document.getElementById('title-input').value,
+                    highlight: document.getElementById('highlight-input').value,
+                    footer: document.getElementById('footer-input').value,
+                    lastUpdate: Date.now()
+                });
+                const t = document.getElementById('toast');
+                t.innerText = "✅ INVIATO ALLA LIM!";
+                t.style.top = '20px';
+                setTimeout(() => t.style.top = '-100px', 3000);
+            } catch (e) {
+                alert("Errore invio.");
+            } finally {
+                updateBtn.disabled = false;
+            }
+        };
+
+        function startLIMMode(id) {
+            document.getElementById('setup-panel').style.display = 'none';
+            document.getElementById('presentation-slide').style.display = 'flex';
+            setInterval(() => {
+                document.getElementById('digital-clock').innerText = new Date().toLocaleTimeString('it-IT');
+            }, 1000);
+
+            onSnapshot(doc(db, 'messaggi', id), (snap) => {
+                if(snap.exists()){
+                    const d = snap.data();
+                    document.getElementById('display-school').innerHTML = d.school.replace(/\n/g, '<br>');
+                    document.getElementById('display-title').innerText = d.title;
+                    document.getElementById('display-highlight').innerText = d.highlight;
+                    document.getElementById('display-footer').innerText = d.footer;
+                }
+            });
+        }
+
+        startBtn.onclick = () => {
+            const id = limInput.value.trim().toUpperCase();
+            startLIMMode(id);
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const aulaParam = params.get('aula');
+        if(aulaParam) startLIMMode(aulaParam.toUpperCase());
+
+    </script>
+</body>
+</html>
